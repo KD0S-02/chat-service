@@ -19,14 +19,14 @@ public class SocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        allUsers.add(session);
         session.getAttributes().put("active", true);
+        allUsers.add(session);
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) {
-        allUsers.remove(session);
         session.getAttributes().put("active", false);
+        allUsers.remove(session);
     }
 
     @Override
@@ -66,10 +66,14 @@ public class SocketHandler extends TextWebSocketHandler {
             System.out.println(rooms.get(parsedMessage.getRoomId()).toString());
             for (WebSocketSession s : rooms.get(parsedMessage.getRoomId())) {
                 if (s != session) {
-                    String newMessage = session.getAttributes().get("username") + " : " + parsedMessage.getData();
-                    String response = "{\"type\":\"message\", \"roomId\":null, \"data\":\"%s\"}";
-                    String formattedResponse = String.format(response, newMessage);
-                    s.sendMessage(new TextMessage(formattedResponse));
+                    if (s.isOpen()) {
+                        String newMessage = session.getAttributes().get("username") + " : " + parsedMessage.getData();
+                        String response = "{\"type\":\"message\", \"roomId\":null, \"data\":\"%s\"}";
+                        String formattedResponse = String.format(response, newMessage);
+                        s.sendMessage(new TextMessage(formattedResponse));
+                    } else {
+                        rooms.get(parsedMessage.getRoomId()).remove(s);
+                    }
                 }
             }
         }
