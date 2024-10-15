@@ -8,10 +8,20 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
 import com.kd0s.chat_service.handler.SocketHandler;
+import com.kd0s.chat_service.services.GroupService;
+import com.kd0s.chat_service.services.UserGroupService;
 
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
+
+    private final UserGroupService userGroupService;
+    private final GroupService groupService;
+
+    public WebSocketConfig(UserGroupService userGroupService, GroupService groupService) {
+        this.userGroupService = userGroupService;
+        this.groupService = groupService;
+    }
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
@@ -21,6 +31,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Bean
     public WebSocketHandler socketHandler() {
-        return new SocketHandler();
+        return new SocketHandler(userGroupService, groupService);
     }
 }

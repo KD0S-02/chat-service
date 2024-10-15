@@ -3,12 +3,16 @@ package com.kd0s.chat_service.services.impl;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
+
+import org.springframework.stereotype.Service;
+
 import java.util.stream.Collectors;
 
 import com.kd0s.chat_service.models.GroupEntity;
 import com.kd0s.chat_service.repositories.GroupRepository;
 import com.kd0s.chat_service.services.GroupService;
 
+@Service
 public class GroupServiceImpl implements GroupService {
 
     private GroupRepository groupRepository;

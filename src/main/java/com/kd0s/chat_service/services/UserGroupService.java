@@ -10,7 +10,7 @@ public interface UserGroupService {
 
     public List<UserGroupEntity> getUserGroups(String username);
 
-    public UserGroupEntity AddUserGroup(UserGroupEntity userGroup);
+    public void AddUserGroup(UserGroupEntity userGroup);
 
     // public UserGroupEntity RemoveGroupUser(String groupId, String username);
 }

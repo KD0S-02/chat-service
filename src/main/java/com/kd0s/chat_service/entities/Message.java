@@ -11,4 +11,5 @@ public class Message {
     private String type;
     private String roomId;
     private String data;
+    private String username;
 }

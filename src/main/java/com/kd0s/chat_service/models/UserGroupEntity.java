@@ -22,7 +22,7 @@ public class UserGroupEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String Username;
+    private String username;
 
-    private String GroupId;
+    private String groupId;
 }

@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.springframework.stereotype.Service;
+
 import com.kd0s.chat_service.models.UserGroupEntity;
 import com.kd0s.chat_service.repositories.UserGroupRepository;
 import com.kd0s.chat_service.services.UserGroupService;
 
+@Service
 public class UserGroupImpl implements UserGroupService {
 
     private UserGroupRepository userGroupRepository;
@@ -29,7 +32,9 @@ public class UserGroupImpl implements UserGroupService {
     }
 
     @Override
-    public UserGroupEntity AddUserGroup(UserGroupEntity userGroup) {
-        return userGroupRepository.save(userGroup);
+    public void AddUserGroup(UserGroupEntity userGroup) {
+        if (userGroupRepository.existsByGroupIdAndUsername(userGroup.getGroupId(), userGroup.getUsername()))
+            return;
+        userGroupRepository.save(userGroup);
     }
 }
